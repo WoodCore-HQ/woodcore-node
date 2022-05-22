@@ -14,11 +14,11 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WoodCore-HQ/_wc-node-sdk.git"
+    "url": "git+https://github.com/WoodCore-HQ/woodcore-node.git"
   },
   "bugs": {
-    "url": "https://github.com/WoodCore-HQ/_wc-node-sdk/issues"
+    "url": "https://github.com/WoodCore-HQ/woodcore-node/issues"
   },
-  "homepage": "https://github.com/WoodCore-HQ/_wc-node-sdk#readme",
+  "homepage": "https://github.com/WoodCore-HQ/woodcore-node#readme",
   "description": ""
 }
