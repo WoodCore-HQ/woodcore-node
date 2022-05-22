@@ -27,12 +27,12 @@ module.exports = function Wrapper(config) {
         return activePromise
       }
 
-      let currentPage = request.query.currentPage || 1;
+      let currentPage = request.query?.currentPage || 1;
       const asyncIterator = {
         next: async () => {
           Object.assign(options.params, { page: currentPage, perPage: options.params.perPage || 15 })
           const response = await axiosPromise()
-          if (response.data.meta.totalPage === response.data.meta.currentPage || !response.data.meta.totalPage) {
+          if (response.data.meta?.totalPage === response.data.meta?.currentPage || !response.data.meta?.totalPage) {
             return Promise.resolve({ done: true });
           }
           return Promise.resolve({ value: response, done: false });

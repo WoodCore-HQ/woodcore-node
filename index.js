@@ -1,9 +1,9 @@
-const Accounting = require('./collections/accounting');
-const Clients = require('./collections/clients');
-const IntraTransfer = require('./collections/intratransfer');
+const Accounting = require('./collections/Accounting');
+const Clients = require('./collections/Clients');
+const IntraTransfer = require('./collections/Intratransfer');
 const Loans = require('./collections/Loans');
-const Products = require('./collections/products');
-const Savings = require('./collections/savings');
+const Products = require('./collections/Products');
+const Savings = require('./collections/Savings');
 
 class WoodCore {
   constructor(key) {
