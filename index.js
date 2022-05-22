@@ -15,33 +15,27 @@ class WoodCore {
   }
 
   get accounting() {
-    const accounting = new Accounting(this.config)
-    return accounting
+    return new Accounting(this.config)
   }
 
   get clients() {
-    const clients = new Clients(this.config)
-    return clients
+    return new Clients(this.config)
   }
 
   get intraTransfer() {
-    const intraTransfer = new IntraTransfer(this.config)
-    return intraTransfer
+    return new IntraTransfer(this.config)
   }
 
   get loans() {
-    const loans = new Loans(this.config)
-    return loans
+    return new Loans(this.config)
   }
 
   get products() {
-    const products = new Products(this.config)
-    return products
+    return new Products(this.config)
   }
 
   get savings() {
-    const savings = new Savings(this.config)
-    return savings
+    return new Savings(this.config)
   }
 }
 
