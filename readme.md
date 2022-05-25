@@ -5,7 +5,7 @@ This package provides easy access to WoodCore's Core Banking APIs.
 ## Installation
 
 ```bash
-  $ npm install woodcore-node --save
+  $ npm install @woodcore/woodcore-node --save
 ```
 
 ## Usage
@@ -14,14 +14,14 @@ The package needs to be configured with a secret key gotten from the woodcore's 
 Require and initialize the woodcore package and you're good to go.
 
 ```js
-const WoodCore = require("woodcore-node");
+const WoodCore = require("@woodcore/woodcore-node");
 const woodcore = new WoodCore("wc_test_......");
 ```
 
 Each method returns a promise
 
 ```js
-const WoodCore = require("woodcore-node");
+const WoodCore = require("@woodcore/woodcore-node");
 const woodcore = new WoodCore("wc_test_......");
 
 woodcore.clients.retrieveCustomers()
@@ -34,10 +34,10 @@ woodcore.clients.retrieveCustomers()
 ```
 
 ```js
-const WoodCore = require("woodcore-node");
+const WoodCore = require("@woodcore/woodcore-node");
 const woodcore = new WoodCore("wc_test_......");
 
-(() => {
+(async() => {
   try {
     const { status, message, data } = await woodcore.clients.retrieveCustomers();
     console.log(status, message, data)
@@ -52,10 +52,10 @@ const woodcore = new WoodCore("wc_test_......");
 You can auto paginate through data using async itration on Node 10+
 
 ```js
-const WoodCore = require("woodcore-node");
+const WoodCore = require("@woodcore/woodcore-node");
 const woodcore = new WoodCore("wc_test_......");
 
-(() => {
+(async() => {
   try {
     for await (const { status, message, data } of woodcore.clients.retrieveCustomers()) {
       console.log(status, message, data);
