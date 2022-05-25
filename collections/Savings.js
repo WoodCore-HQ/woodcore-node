@@ -66,7 +66,7 @@ module.exports = class Savings {
   * @property {string} accountId - This describes the id of the deposit account.
   * @returns
   */
-  retrieveASavingsAccount1({ accountId } = {}) {
+  retrieveASavingsAccount({ accountId } = {}) {
     const params = { accountId }
     return this.wrapper({
       path: `/savingsaccounts/${accountId}`,
@@ -181,7 +181,7 @@ module.exports = class Savings {
   * @property {string} transactionAmount - amount to be held from Savings account.
   * @returns
   */
-  lienAmountFromSavingsAccount1({ accountId, transactionDate, transactionAmount } = {}) {
+  lienAmountFromSavingsAccount({ accountId, transactionDate, transactionAmount } = {}) {
     const params = { accountId }
     const data = { transactionDate, transactionAmount }
     return this.wrapper({
@@ -201,7 +201,7 @@ module.exports = class Savings {
   * @property {string} {} - 
   * @returns
   */
-  releaseLienAmountOnSavingsAccount1({ accountId, resourceId } = {}) {
+  releaseLienAmountOnSavingsAccount({ accountId, resourceId } = {}) {
     const params = { accountId, resourceId }
     const data = {}
     return this.wrapper({
@@ -283,7 +283,7 @@ module.exports = class Savings {
   * @property {string} accountId - This describes the `id` of the deposit account.
   * @returns
   */
-  unblockPncOnSavingsAccount1({ accountId } = {}) {
+  unblockPncOnSavingsAccount({ accountId } = {}) {
     const params = { accountId }
     return this.wrapper({
       path: `/savingsaccounts/${accountId}/removepnc`,
@@ -315,7 +315,7 @@ module.exports = class Savings {
   * @property {string} accountId - This describes the id of the deposit account.
   * @returns
   */
-  unblockPndOnSavingsAccount1({ accountId } = {}) {
+  unblockPndOnSavingsAccount({ accountId } = {}) {
     const params = { accountId }
     return this.wrapper({
       path: `/savingsaccounts/${accountId}/removepnd`,
