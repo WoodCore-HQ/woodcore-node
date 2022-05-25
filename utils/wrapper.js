@@ -19,10 +19,16 @@ module.exports = function Wrapper(config) {
             currentPage++;
             return resolve(response.data)
           })
-            .catch(reject)
-            .finally(() => {
-              activePromise = null
-            })
+          .catch((error) => {
+            if (error.response) {
+              if (typeof error.response.data.message === "string") return reject(error.response.data.message)
+              reject(`${error.response.data.message.message}: ${error.response.data.message.error}`)
+            }
+            reject(error)
+          })
+          .finally(() => {
+            activePromise = null
+          })
         })
         return activePromise
       }
@@ -30,8 +36,6 @@ module.exports = function Wrapper(config) {
       let currentPage = request.query?.currentPage || 1;
       const asyncIterator = {
         next: async () => {
-          // uses the async iterator on only get requests.
-          if (request.method.toLowerCase() !== "get") return Promise.resolve({ done: true });
           Object.assign(options.params, { page: currentPage, perPage: options.params.perPage || 15 })
           const response = await axiosPromise()
           if (response.data.meta?.totalPage === response.data.meta?.currentPage || !response.data.meta?.totalPage) {
@@ -47,10 +51,6 @@ module.exports = function Wrapper(config) {
 
       return Object.assign(axiosPromise(), asyncIterable);
     } catch (error) {
-      if (error.response) {
-        if (typeof error.response.data.message === "string") throw new Error(error.response.data.message)
-        throw new Error(`${error.response.data.message.message}: ${error.response.data.message.error}`)
-      }
       throw new Error(error)
     }
   }
