@@ -19,16 +19,22 @@ module.exports = function Wrapper(config) {
             currentPage++;
             return resolve(response.data)
           })
-          .catch((error) => {
-            if (error.response) {
-              if (typeof error.response.data.message === "string") return reject(error.response.data.message)
-              reject(`${error.response.data.message.message}: ${error.response.data.message.error}`)
-            }
-            reject(error)
-          })
-          .finally(() => {
-            activePromise = null
-          })
+            .catch(({ response, code, message }) => {
+              const error = new Error();
+              if (response) {
+                error.name = 'WoodCoreAPIError';
+                error.code = response.status;
+                if (typeof response.data.message === "string") error.message = response.data.message;
+                else error.message = `${response.data.message.message}: ${response.data.message.error}`
+                return reject(error)
+              }
+              error.code = code;
+              error.message = message;
+              reject(error)
+            })
+            .finally(() => {
+              activePromise = null
+            })
         })
         return activePromise
       }
@@ -36,6 +42,7 @@ module.exports = function Wrapper(config) {
       let currentPage = request.query?.currentPage || 1;
       const asyncIterator = {
         next: async () => {
+          if (request.method !== "get") return Promise.resolve({ done: true });
           Object.assign(options.params, { page: currentPage, perPage: options.params.perPage || 15 })
           const response = await axiosPromise()
           if (response.data.meta?.totalPage === response.data.meta?.currentPage || !response.data.meta?.totalPage) {
