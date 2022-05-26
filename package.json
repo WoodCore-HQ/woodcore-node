@@ -5,8 +5,29 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "woodcoreapp",
+    "woodcore",
+    "core banking",
+    "cba",
+    "api",
+    "digital bank",
+    "core",
+    "accounting",
+    "finance",
+    "reporting",
+    "wallet",
+    "loan",
+    "calculator",
+    "process",
+    "teller",
+    "manager",
+    "open banking"
+  ],
+  "author": "Woodcore <tech@woodcoreapp.com>",
+  "engines": {
+    "node": ">=10.*"
+  },
   "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2"
