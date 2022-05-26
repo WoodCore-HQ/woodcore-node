@@ -3,13 +3,7 @@ const { default: axios } = require("axios")
 module.exports = function Wrapper(config) {
   return function (request) {
     try {
-      const options = {
-        baseURL: config.baseURL,
-        url: request.path,
-        method: request.method,
-        params: request.query,
-        headers: { Authorization: `Bearer ${config.key}` }
-      }
+      const options = generateOptions(request, config)
 
       let activePromise
       const axiosPromise = () => {
@@ -24,8 +18,8 @@ module.exports = function Wrapper(config) {
               if (response) {
                 error.name = 'WoodCoreAPIError';
                 error.code = response.status;
-                if (typeof response.data.message === "string") error.message = response.data.message;
-                else error.message = `${response.data.message.message}: ${response.data.message.error}`
+                if (typeof (response.data && response.data.message) === "string") error.message = response.data.message;
+                else if (response.data && response.data.message) error.message = `${response.data.message.message}: ${response.data.message.error}`
                 return reject(error)
               }
               error.code = code;
@@ -39,14 +33,18 @@ module.exports = function Wrapper(config) {
         return activePromise
       }
 
-      let currentPage = request.query?.currentPage || 1;
+      let currentPage = (options.params && options.params.page);
+      let done = false;
       const asyncIterator = {
         next: async () => {
-          if (request.method !== "get") return Promise.resolve({ done: true });
-          Object.assign(options.params, { page: currentPage, perPage: options.params.perPage || 15 })
+          if (request.method && request.method.toLowerCase() !== "get") return Promise.resolve({ done: true });
+          if (done) return Promise.resolve({ done: true });
+          Object.assign(options.params, { page: currentPage })
           const response = await axiosPromise()
-          if (response.data.meta?.totalPage === response.data.meta?.currentPage || !response.data.meta?.totalPage) {
-            return Promise.resolve({ done: true });
+          const meta = response.data && response.data.meta
+          if (!meta || (meta.totalPage === meta.currentPage) || !meta.totalPage) {
+            done = true;
+            return Promise.resolve({ value: response, done: false });
           }
           return Promise.resolve({ value: response, done: false });
         }
@@ -61,4 +59,19 @@ module.exports = function Wrapper(config) {
       throw new Error(error)
     }
   }
+}
+
+function generateOptions(request, config) {
+  const options = {
+    baseURL: config.baseURL,
+    url: request.path,
+    method: request.method,
+    params: request.query,
+    headers: { Authorization: `Bearer ${config.key}` }
+  }
+  if (options.params && (request.method && request.method.toLowerCase() === "get")) {
+    if (!options.params.perPage) Object.assign(options.params, { perPage: 10 })
+    if (!options.params.page) Object.assign(options.params, { page: 1 })
+  }
+  return options;
 }
