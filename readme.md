@@ -73,6 +73,7 @@ const woodcore = new WoodCore("wc_test_......");
 
 > The package exposes the following methods which are properly defined and documented. 
 
+```js
 - clients
   - woodcore.clients.createIndividualClient()
   - woodcore.clients.activateClient()
@@ -144,3 +145,4 @@ const woodcore = new WoodCore("wc_test_......");
   - woodcore.intraTransfer.createIntraTransfer()
   - woodcore.intraTransfer.listAccountTransfers()
   - woodcore.intraTransfer.retrieveIntraTransfer()
+```
